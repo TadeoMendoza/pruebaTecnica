@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { createObserveModule } from '@nestjs/observe';
-import { AppController } from './app.controller.js';
-import { AppService } from './app.service.js';
+import { RequestController } from './request/request.controller.js';
+import { RequestService } from './request/request.service.js';
 
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
@@ -15,7 +15,7 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
       serviceId: 'prueba-tecnica-back',
     }),
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [RequestController],
+  providers: [RequestService],
 })
 export class AppModule {}
