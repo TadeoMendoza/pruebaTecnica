@@ -31,24 +31,22 @@ export class CreateRequestDto {
 
   @IsNotEmpty({ message: 'Los meses son obligatorios' })
   @IsNumber({}, { message: 'Los meses deben ser un número' })
-  @IsIn([6, 8, 12, 21], {
-    message: 'Los meses permitidos son únicamente 6, 8, 18 o 24',
+  @IsIn([6, 12, 18, 24], {
+    message: 'Los meses permitidos son únicamente 6, 12, 18 o 24',
   })
   months: number;
 
-  @Type(() => String)
   @IsNotEmpty({ message: 'El DNI es obligatorio' })
   @Matches(/^\d{8}$/, {
     message: 'El DNI debe contener exactamente 8 dígitos numéricos',
   })
-  dni: number;
+  dni: string;
 
-  @Type(() => String)
   @IsNotEmpty({ message: 'El teléfono es obligatorio' })
   @Matches(/^9\d{8}$/, {
     message: 'El teléfono debe empezar con 9 y tener 9 dígitos numéricos',
   })
-  phone: number;
+  phone: string;
 
   @IsOptional()
   @IsString()
