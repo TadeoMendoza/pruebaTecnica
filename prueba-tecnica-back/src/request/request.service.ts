@@ -1,11 +1,31 @@
 import { Injectable } from '@nestjs/common';
 import { CreateRequestDto } from './create-request.dto.js';
 import { PrismaService } from '../prisma/prisma.service';
+import { Prisma, RequestStatus } from '@prisma/client/wasm';
 @Injectable()
 export class RequestService {
   constructor(private readonly prisma: PrismaService) {}
-  getRequests(): string {
-    return 'Obteniendo solicitudes';
+
+  async getRequests(limit: number, page: number, status?: string) {
+    const where: Prisma.requestWhereInput = status
+      ? { status: status as RequestStatus }
+      : {};
+
+    const [results, total] = await Promise.all([
+      this.prisma.request.findMany({
+        where,
+        skip: (page - 1) * limit,
+        take: limit,
+        orderBy: { createdAt: 'desc' },
+      }),
+      this.prisma.request.count({ where }),
+    ]);
+    const data = {
+      results: results,
+      total: total,
+      pages: Math.ceil(total / limit),
+    };
+    return data;
   }
 
   private calculateMonthlyPayment(amount: number, months: number): number {
