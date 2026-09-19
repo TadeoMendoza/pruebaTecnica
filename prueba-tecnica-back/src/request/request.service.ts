@@ -32,7 +32,7 @@ export class RequestService {
   }
 
   private calculateMonthlyPayment(amount: number, months: number): number {
-    const annualRate = 0.24;
+    const annualRate = Number(process.env.ANNUAL_RATE || 0.24);
     const monthlyRate = annualRate / 12;
     const monthlyPayment =
       amount * (monthlyRate / (1 - Math.pow(1 + monthlyRate, -months)));
