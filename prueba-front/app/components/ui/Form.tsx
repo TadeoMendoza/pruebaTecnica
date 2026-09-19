@@ -51,7 +51,6 @@ export function Form() {
         headers: { 'Content-Type': 'application/json' },
         data: payload,
       });
-      // console.log("🚀 ~ handleSubmit ~ res:", res)
 
       if (res.status == 201 && res.message) {
         setSubmitLoading(false);
@@ -62,12 +61,10 @@ export function Form() {
         }, 2000);
       }
     } catch (err: any) {
-      // console.log("🚀 ~ handleSubmit ~ err:", (err))
       const status = err?.response?.status;
       const errorData = err?.response?.data;
       setSubmitLoading(false);
 
-      // console.log("🚀 ~ handleSubmit ~ status:", status)
       switch (status) {
         case 400:
           setErrorMessages(errorData?.message || ['Error en la solicitud']);

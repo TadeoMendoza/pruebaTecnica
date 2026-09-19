@@ -1,58 +1,42 @@
-# pruebaTecnica
+# Prueba Técnica BaldeCash - Solicitudes de Financiamiento
 
-### Uso de IA
-* Consultas generales sobre NestJS.
-* Consultas de validación de datos usando `class-validator` y `class-transformer`.
-* Creación de `all-exceptions.filter.ts` para manejo global de errores.
-* Configuración de base de datos con Prisma y Docker.
+Proyecto FullStack para el registro y gestión de solicitudes, compuesto por un backend en NestJS y un frontend en Next.js.
+
+## Instrucciones para iniciar el proyecto desde cero
+
+La aplicación está dockerizada para que su ejecución sea automática. Este proceso levantará la base de datos, aplicará las tablas necesarias, insertará datos de prueba y arrancará ambos servidores.
+
+### Prerrequisitos
+- Tener instalado [Docker](https://docs.docker.com/get-docker/) y Docker Compose.
+- Tener instalado Git.
+
+### Pasos de ejecución
+
+1. **Clonar el repositorio:**
+   ```bash
+   git clone https://github.com/TadeoMendoza/pruebaTecnica.git
+   cd pruebaTecnica
+   ```
+
+2. **Levantar todos los servicios:**
+   ```bash
+   docker compose up --build
+   ```
+
+3. **Acceder a la aplicación:**
+   - **Frontend (Interfaz de usuario):** http://localhost:3001
+   - **Backend (API):** http://localhost:3000
 
 ---
 
-# Base de Datos, Prisma y Docker Setup
+## Decisiones Técnicas y Arquitectura
+- **Stack:** Backend en NestJS (TypeScript) y Frontend en Next.js con Tailwind CSS.
+- **Base de Datos:** PostgreSQL administrado mediante Prisma ORM.
+---
 
-### 1. Levantar Contenedor PostgreSQL
-```bash
-docker run --name baldecash_postgres -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgrespassword -e POSTGRES_DB=baldecash_db -p 5432:5432 -d postgres:16-alpine
-```
-
-### 2. Instalación de Dependencias
-Ejecutar dentro de `prueba-tecnica-back`:
-```bash
-npm install @prisma/client@5.22.0
-npm install -D prisma@5.22.0 ts-node @types/node
-```
-
-### 3. Archivos de Configuración
-* Variables de entorno: `prueba-tecnica-back/.env` (ver `.env.example`)
-* Esquema de base de datos: `prueba-tecnica-back/prisma/schema.prisma`
-* Datos iniciales (Seeder): `prueba-tecnica-back/prisma/seed.ts`
-* Configuración del script de seed: `prueba-tecnica-back/package.json` (`prisma.seed`)
-
-### 4. Comandos de Ejecución y Migración
-
-Generar cliente de Prisma:
-```bash
-npx prisma generate
-```
-
-Crear y aplicar migración versionada:
-```bash
-npx prisma migrate dev --name init_request
-```
-
-Ejecutar seeder:
-```bash
-npx prisma db seed
-```
-
-Abrir visor de base de datos (Prisma Studio):
-```bash
-npx prisma studio
-```
-
-Resetear base de datos y reaplicar seed:
-```bash
-npx prisma migrate reset
-```
-
-Utilizacion de Antigravity para crear el docker-compose para levantar el proyecto
+## Uso de IA
+Se utilizó Inteligencia Artificial para agilizar el desarrollo en los siguientes puntos:
+- Consultas sobre sintaxis y convenciones de validación en NestJS (`class-validator`, `class-transformer`).
+- Estructuración del filtro global de excepciones (`all-exceptions.filter.ts`).
+- Elaboración paso a paso de los `Dockerfile`, el `docker-compose.yml` y la resolución de conflictos de entorno para que el proyecto levante automáticamente con un solo comando.
+- Creación de las pruebas unitarias (tests) para la validación matemática de las cuotas.
