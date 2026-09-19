@@ -1,4 +1,4 @@
-import { PrismaClient, RequestStatus } from '@prisma/client';
+const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 async function main() {
@@ -15,7 +15,7 @@ async function main() {
         amount: 3000.0,
         months: 12,
         monthlyPayment: 283.68,
-        status: RequestStatus.PENDING,
+        status: 'PENDING',
       },
       {
         name: 'María',
@@ -26,7 +26,7 @@ async function main() {
         amount: 5000.0,
         months: 18,
         monthlyPayment: 334.45,
-        status: RequestStatus.APPROVED,
+        status: 'APPROVED',
       },
       {
         name: 'Carlos',
@@ -37,7 +37,7 @@ async function main() {
         amount: 1500.0,
         months: 6,
         monthlyPayment: 267.75,
-        status: RequestStatus.REJECTED,
+        status: 'REJECTED',
       },
     ],
   });
