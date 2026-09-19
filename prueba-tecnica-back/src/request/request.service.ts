@@ -4,7 +4,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { Prisma, RequestStatus } from '@prisma/client/wasm';
 @Injectable()
 export class RequestService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   async getRequests(limit: number, page: number, status?: string) {
     const where: Prisma.requestWhereInput = status
@@ -60,6 +60,22 @@ export class RequestService {
       };
     } catch (error) {
       throw new Error('Error al procesar la solicitud');
+    }
+  }
+
+  async updateStatus(id: number, status: string) {
+    try {
+      const updatedRequest = await this.prisma.request.update({
+        where: { id },
+        data: { status: status as RequestStatus },
+      });
+
+      return {
+        message: 'Solicitud actualizada correctamente',
+        request: updatedRequest,
+      };
+    } catch (error) {
+      throw new Error('Error al actualizar la solicitud');
     }
   }
 }
