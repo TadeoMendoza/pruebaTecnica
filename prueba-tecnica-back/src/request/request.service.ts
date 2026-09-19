@@ -25,7 +25,10 @@ export class RequestService {
       total: total,
       pages: Math.ceil(total / limit),
     };
-    return data;
+    return {
+      data,
+      status: 200
+    };
   }
 
   private calculateMonthlyPayment(amount: number, months: number): number {
@@ -56,7 +59,13 @@ export class RequestService {
       });
       return {
         message: 'Solicitud procesada correctamente',
-        request: newRequest,
+        request: {
+          monthlyPayment: this.calculateMonthlyPayment(
+            data.amount,
+            data.months,
+          ),
+        },
+        status: 201
       };
     } catch (error) {
       throw new Error('Error al procesar la solicitud');
@@ -72,7 +81,7 @@ export class RequestService {
 
       return {
         message: 'Solicitud actualizada correctamente',
-        request: updatedRequest,
+        status: 204
       };
     } catch (error) {
       throw new Error('Error al actualizar la solicitud');
