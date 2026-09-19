@@ -43,7 +43,7 @@ export function UpdateStatus({
             });
 
             console.log(response)
-            if (response.status == 204) {
+            if (response.message) {
                 setSuccessMessage('Actualizado con exito')
                 setTimeout(() => {
                     setSuccessMessage('')

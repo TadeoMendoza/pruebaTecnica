@@ -52,7 +52,7 @@ export function Form() {
         data: payload,
       });
 
-      if (res.status == 201 && res.message) {
+      if (res.message) {
         setSubmitLoading(false);
         setSuccessMessage(res.message + ' ' + 'Debe pagar: S/ ' + res.request.monthlyPayment);
         setTimeout(() => {
