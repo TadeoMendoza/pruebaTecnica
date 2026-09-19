@@ -1,11 +1,12 @@
 import Image from "next/image";
-import { Toast } from "./components/ui/Toast";
 import {Form} from "./components/ui/Form"
+import { DataTable } from "./components/ui/DataTable";
 
 export default function Home() {
   return (
     <div>
       <Form />
+      <DataTable />
     </div>
   );
 }
