@@ -16,13 +16,11 @@ export async function apiClient<T>(endpoint: string, options: FetchOptions = {})
     ...customConfig,
   };
 
-  // console.log("🚀 ~ apiClient ~ data:", data)
   if (data) {
     config.body = JSON.stringify(data);
   }
 
     const response = await fetch(`${API_URL}${endpoint}`, config);
-    // console.log("🚀 ~ apiClient ~ config:", config)
 
     if (!response.ok) {
     const errorData = await response.json().catch(() => null);
