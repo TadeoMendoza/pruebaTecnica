@@ -36,7 +36,7 @@ export function UpdateStatus({
         setError(null);
         try {
 
-            const response = await apiClient(`/solicitudes/${id}/status`, {
+            const response = await apiClient<any>(`/solicitudes/${id}/status`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
                 data: { status: selectedStatus },

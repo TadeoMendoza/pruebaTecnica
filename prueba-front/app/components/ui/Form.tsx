@@ -46,7 +46,7 @@ export function Form() {
     };
     try {
       setSubmitLoading(true);
-      const res = await apiClient('/solicitudes', {
+      const res = await apiClient<any>('/solicitudes', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         data: payload,
@@ -61,7 +61,7 @@ export function Form() {
           setFormData(INITIAL_FORM);
         }, 2000);
       }
-    } catch (err) {
+    } catch (err: any) {
       // console.log("🚀 ~ handleSubmit ~ err:", (err))
       const status = err?.response?.status;
       const errorData = err?.response?.data;

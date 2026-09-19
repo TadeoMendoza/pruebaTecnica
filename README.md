@@ -54,3 +54,5 @@ Resetear base de datos y reaplicar seed:
 ```bash
 npx prisma migrate reset
 ```
+
+Utilizacion de Antigravity para crear el docker-compose para levantar el proyecto

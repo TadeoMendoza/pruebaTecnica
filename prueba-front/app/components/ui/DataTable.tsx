@@ -20,7 +20,7 @@ export function DataTable() {
                 ...(statusFilter && { status: statusFilter }),
             });
 
-            const res = await apiClient(`/solicitudes?${queryParams.toString()}`, {
+            const res = await apiClient<any>(`/solicitudes?${queryParams.toString()}`, {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' },
             });
@@ -47,7 +47,7 @@ export function DataTable() {
                     <button onClick={() => getData()} className="cursor-pointer transition-transform duration-300 hover:scale-110">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-reload">
+                            stroke-linecap="round" stroke-linejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-reload">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M19.933 13.041a8 8 0 1 1 -9.925 -8.788c3.899 -1 7.935 1.007 9.425 4.747" />
                             <path d="M20 4v5h-5" />
                         </svg>
@@ -69,14 +69,14 @@ export function DataTable() {
                         <button onClick={() => setPageFilter(pageFilter - 1)} disabled={pageFilter === 1} className="cursor-pointer transition-transform duration-300 hover:scale-110">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-left">
+                                stroke-linecap="round" stroke-linejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-chevron-left">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M15 6l-6 6l6 6" /></svg>
                         </button>
                         <span>{pageFilter}</span>
                         <button onClick={() => setPageFilter(pageFilter + 1)} disabled={pageFilter === (totalPages || 1)} className="cursor-pointer transition-transform duration-300 hover:scale-110">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-right">
+                                stroke-linecap="round" stroke-linejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-chevron-right">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M9 18l6-6l-6-6" /></svg>
                         </button>
                     </div>
