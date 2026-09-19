@@ -9,7 +9,6 @@ import {
   IsIn,
   IsOptional,
 } from 'class-validator';
-import { Type } from 'class-transformer';
 export class CreateRequestDto {
   @IsNotEmpty({ message: 'El nombre es obligatorio' })
   @IsString({ message: 'El nombre debe ser una cadena de texto' })
