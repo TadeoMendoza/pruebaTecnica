@@ -1,5 +1,6 @@
 'use client';
 import { apiClient } from '@/app/server/api';
+import { time } from 'console';
 import React, { useState } from 'react';
 
 export function Form() {
@@ -24,7 +25,9 @@ export function Form() {
   };
   const [errorMessages, setErrorMessages] = useState<string[]>([]);
   const [formData, setFormData] = useState<FormState>(INITIAL_FORM);
-
+  const availableMonths = [6, 12, 18, 24];
+  const [sucessMessage, setSuccessMessage] = useState('');
+  const [submitLoading, setSubmitLoading] = useState(false);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -42,6 +45,7 @@ export function Form() {
       months: Number(formData.months),
     };
     try {
+      setSubmitLoading(true);
       const res = await apiClient('/solicitudes', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -50,13 +54,19 @@ export function Form() {
       // console.log("🚀 ~ handleSubmit ~ res:", res)
 
       if (res && res.message) {
-        alert('¡Solicitud enviada con éxito!');
-
+        setSubmitLoading(false);
+        setSuccessMessage(res.message + ' ' + 'Debe pagar: S/ ' + res.request.monthlyPayment);
+        setTimeout(() => {
+          setSuccessMessage('');
+          setFormData(INITIAL_FORM);
+        }, 2000);
       }
     } catch (err) {
       // console.log("🚀 ~ handleSubmit ~ err:", (err))
       const status = err?.response?.status;
       const errorData = err?.response?.data;
+      setSubmitLoading(false);
+
       // console.log("🚀 ~ handleSubmit ~ status:", status)
       switch (status) {
         case 400:
@@ -93,14 +103,31 @@ export function Form() {
         <input type="number" name="amount" value={formData.amount} onChange={handleChange} placeholder="Monto" className="w-full p-2 mb-4 text-black rounded bg-white" />
       </div>
       <div className="flex gap-2 md:flex-row flex-col">
-        <input type="number" name="months" value={formData.months} onChange={handleChange} placeholder="Meses" className="w-full p-2 mb-4 text-black rounded bg-white" />
+        <select name="months" value={formData.months} onChange={handleChange} className="w-full p-2 mb-4 text-black rounded bg-white">
+          {availableMonths.map((month) => (
+            <option key={month} value={month}>
+              {month} meses
+            </option>
+          ))}
+        </select>
       </div>
       <button
+        disabled={submitLoading || Boolean(sucessMessage)}
         type="submit"
         className="w-full p-2 mb-4 text-white rounded bg-[#191919] hover:bg-[#333333] transition-colors duration-300 cursor-pointer"
       >
-        Enviar
+        {submitLoading ? (
+          <p className="animate-pulse">Enviando...</p>
+        ) : (
+          'Enviar'
+        )}
       </button>
+      {submitLoading}
+      {sucessMessage && submitLoading == false && (
+        <div className="flex flex-col gap-1 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg mb-4 text-sm">
+          <p className="font-semibold">{sucessMessage}</p>
+        </div>
+      )}
     </form>
   )
 }
