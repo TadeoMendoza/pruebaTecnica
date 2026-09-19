@@ -22,45 +22,9 @@ const INITIAL_FORM: FormState = {
   amount: 0,
   months: 6,
 };
+const [errorMessages, setErrorMessages] = useState<string[]>([]);
 const [formData, setFormData] = useState<FormState>(INITIAL_FORM);
 
-const validate = (): string | null => {
-    const { name, lastname, email, phone, dni, amount, months } = formData;
-    if (!name || !lastname || !email || !phone || !dni || !amount || !months) {
-      return 'Por favor, complete todos los campos.';
-    }
-
-    if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(name) || !/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(lastname)) {
-      return 'El nombre y apellido deben contener solo letras.';
-    }
-
-    if (name.length > 50 || lastname.length > 50) {
-      return 'El nombre y apellido no deben exceder los 50 caracteres.';
-    }
-
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      return 'Por favor, ingrese un correo electrónico válido.';
-    }
-
-    if (!/^9\d{8}$/.test(phone)) {
-      return 'El teléfono debe empezar con 9 y tener 9 dígitos numéricos.';
-    }
-
-    if (!/^\d{8}$/.test(dni)) {
-      return 'El DNI debe contener exactamente 8 dígitos numéricos.';
-    }
-
-    const parsedAmount = amount;
-    if (isNaN(parsedAmount) || parsedAmount < 1000 || parsedAmount > 10000) {
-      return 'El monto debe estar entre 1000 y 10000.';
-    }
-
-    if (![6, 12, 18, 24].includes(Number(months))) {      
-        return 'Los meses permitidos son únicamente 6, 12, 18 o 24.';
-    }
-
-    return null;
-  };
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
         setFormData((prev) => ({
@@ -71,12 +35,7 @@ const validate = (): string | null => {
 
 const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
-    const validationError = validate();
-    if (validationError) {
-      alert(validationError);
-      return;
-    }
+    setErrorMessages([]);
     const payload = {
         ...formData,
         amount: Number(formData.amount),
@@ -95,14 +54,32 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 
       }
     } catch (err) {
-      alert('Ocurrió un error al enviar la solicitud.');
+        console.log("🚀 ~ handleSubmit ~ err:", (err))
+        const status = err?.response?.status;
+        const errorData= err?.response?.data;
+        console.log("🚀 ~ handleSubmit ~ status:", status)
+        switch (status) {
+          case 400:
+            setErrorMessages(errorData?.message || ['Error en la solicitud']);
+          
+        }
     } finally {
     }
   };
 
   return(
     <form onSubmit={handleSubmit} className="w-full max-w-4xl mx-auto p-10 bg-white/40 backdrop-blur-xs border border-white/20 rounded-2xl shadow-xl">   
-        <h1 className="text-3xl font-bold mb-6 text-center text-[#191919]">Bienvenido, Ingrese sus datos</h1>     
+        <h1 className="text-3xl font-bold mb-6 text-center text-[#191919]">Bienvenido, Ingrese sus datos</h1>  
+          {errorMessages.length > 0 && (
+            <div className="flex flex-col gap-1 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg mb-4 text-sm">
+              <p className="font-semibold">Por favor corrige los siguientes errores:</p>
+              <ul className="list-disc list-inside space-y-1">
+                {errorMessages.map((msg, index) => (
+                  <li key={index}>{msg}</li>
+                ))}
+              </ul>
+            </div>
+          )}
         <div className="flex gap-2 md:flex-row flex-col">
             <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Nombre" className="w-full p-2 mb-4 text-black rounded bg-white" />
             <input type="text" name="lastname" value={formData.lastname} onChange={handleChange} placeholder="Apellido" className="w-full p-2 mb-4 text-black rounded bg-white" />
@@ -127,4 +104,5 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     </form>
   )
 }
+
 
