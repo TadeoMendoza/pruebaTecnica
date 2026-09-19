@@ -16,7 +16,7 @@ export class RequestService {
         where,
         skip: (page - 1) * limit,
         take: limit,
-        orderBy: { createdAt: 'desc' },
+        orderBy: { createdAt: 'asc' },
       }),
       this.prisma.request.count({ where }),
     ]);
