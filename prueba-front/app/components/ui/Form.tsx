@@ -53,7 +53,7 @@ export function Form() {
       });
       // console.log("🚀 ~ handleSubmit ~ res:", res)
 
-      if (res && res.message) {
+      if (res.status == 201 && res.message) {
         setSubmitLoading(false);
         setSuccessMessage(res.message + ' ' + 'Debe pagar: S/ ' + res.request.monthlyPayment);
         setTimeout(() => {
