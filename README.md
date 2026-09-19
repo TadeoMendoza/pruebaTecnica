@@ -40,3 +40,4 @@ Se utilizó Inteligencia Artificial para agilizar el desarrollo en los siguiente
 - Estructuración del filtro global de excepciones (`all-exceptions.filter.ts`).
 - Elaboración paso a paso de los `Dockerfile`, el `docker-compose.yml` y la resolución de conflictos de entorno para que el proyecto levante automáticamente con un solo comando.
 - Creación de las pruebas unitarias (tests) para la validación matemática de las cuotas.
+- Analisis final del proyecto para correcciones de inconsistencias o redundancias 
