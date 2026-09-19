@@ -67,8 +67,11 @@ export function Form() {
 
       switch (status) {
         case 400:
+        case 422:
           setErrorMessages(errorData?.message || ['Error en la solicitud']);
-
+          break;
+        default:
+          setErrorMessages(['Error inesperado. Por favor, inténtelo de nuevo más tarde.']);
       }
     } finally {
     }
